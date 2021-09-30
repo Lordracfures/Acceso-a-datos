@@ -1,0 +1,21 @@
+<Clientes xmlns:xsi="www.w3.org/2001/XMLSchema-instance">
+
+	<Cliente DNI="78901234X">
+		<Nombre>LUIS</Nombre>
+		<Apellidos>Nadales</Apellidos>
+		<CP>44126</CP>
+	</Cliente>
+
+	<Cliente DNI="89012345E">
+		<Nombre>PEDRO</Nombre>
+		<Apellidos>ROJAS</Apellidos>
+		<CP>56412</CP>
+	</Cliente>
+	
+	<Cliente DNI="56789012B">
+		<Nombre>LORE</Nombre>
+		<Apellidos>SAMPER</Apellidos>
+		<CP>29730</CP>
+	</Cliente>
+
+</Clientes>
