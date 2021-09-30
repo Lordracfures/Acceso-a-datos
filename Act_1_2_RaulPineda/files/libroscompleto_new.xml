@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Clientes>
+    <Cliente Dni="31890517M">
+        <Nombre>Raúl</Nombre>
+        <Apellido>Pineda Caballero1234</Apellido>
+        <Cp/>
+    </Cliente>
+</Clientes>

@@ -28,16 +28,17 @@ import org.w3c.dom.NodeList;
 
 public class CrearClientesDOM {
 
-	private static String Clientes = "Libros";
-	private static String Cliente	= "Cliente";
-	private static String Dni = "Dni";
-	private static String Apellido = "Apellido";
-	private static String Cp = "Cp";
+	private static String CLIENTES = "Clientes";
+	private static String CLIENTE	= "Cliente";
+	private static String DNI = "Dni";
+	private static String NOMBRE = "Nombre";
+	private static String APELLIDO = "Apellido";
+	private static String CP = "Cp";
 	
 	
 	// creamos el fichero Xml en formato Dom
 	
-	public void crearDocumentoXml() {
+	public Document  crearDocumentoXml() {
 		
 		Document doc = null;
 		Element raizElement = null;
@@ -45,24 +46,98 @@ public class CrearClientesDOM {
 		
 		try {
 			
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			doc = docBuilder.newDocument();
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance(); // reservamos una instancia en la memoria
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder(); // generamos la estructura DOM
+			doc = docBuilder.newDocument(); // creamos el socumento DOM
 			
-			raizElement = doc.createElement(Clientes);
-			doc.appendChild(raizElement); //Añadimos la raiz
-			//Cliente = crearNodeCliente(doc, new Cliente("","","","")); // Creamos los 3 nodos cliente y los añadimos
+			raizElement = doc.createElement(CLIENTES); // creamos el elemento raiz que sera clientes
+			doc.appendChild(raizElement); // enlazamos clientes con doc
+			
+			cliente = crearNodeCliente(doc, new Cliente("31890517M","Raúl","Pineda Caballero", "1234")); // Creamos los 3 nodos cliente y los añadimos
+			raizElement.appendChild(cliente);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getStackTrace();
+		}
+		return doc;
+	}
+	
+	public Element crearNodeCliente(Document doc, Cliente cliente) throws DOMException{
+		
+		Element nodeCliente = null;
+		
+		try {
+			nodeCliente = doc.createElement(CLIENTE); // asignamos el elemento cliente en el objeto nodeCliente
+		
+		
+			Attr attr = doc.createAttribute(DNI); // creamos el objeto atrubuto
+			attr.setValue(cliente.getDni()); // asignamos el valor a DNI
+			nodeCliente.setAttributeNode(attr); // añadimos el atributo al nodo cliente
+			
+			Element nombre = doc.createElement(NOMBRE);
+			Node node_text_nombre = doc.createTextNode(cliente.getNombre());
+			nombre.appendChild(node_text_nombre);
+			nodeCliente.appendChild(nombre);
+			
+			Element apellido = doc.createElement(APELLIDO);
+			Node node_text_apellido = doc.createTextNode(cliente.getApellido());
+			apellido.appendChild(node_text_apellido);
+			nodeCliente.appendChild(apellido);
+			
+			Element cp = doc.createElement(CP);
+			Node node_text_cp = doc.createTextNode(cliente.getCp());
+			apellido.appendChild(node_text_cp);
+			nodeCliente.appendChild(cp);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		return	nodeCliente;
 	}
 	
-	public void crearNodeCliente() {
+	public void domToFile(Document doc, String nombreFichero) throws TransformerFactoryConfigurationError, TransformerException, IOException {
+		try {
+			//Transform the XML Source to a Result.
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT,"yes");
+			DOMSource source = new DOMSource(doc);
+			File file = new File("files/" + nombreFichero);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			StreamResult result = new StreamResult(file);	 
+			transformer.transform(source, result);
+		}
+		catch(TransformerFactoryConfigurationError | TransformerException | IOException e) {
+			e.printStackTrace();
+			throw e;
+		} 
+	}
+	
+	public static void main(String[] args) throws Exception {
+			
+			try {
+				
+				// ------------------- Probamos la 1ª parte -----------------------
+				//creamos un arbol dom;
+				CrearClientesDOM createDom = new CrearClientesDOM();
+				Document doc = createDom.crearDocumentoXml();
+				System.out.println("1.1 El arbol ha sido creado y guardado en un Document");
+				
+				//guardamos en un XML el arbol DOM creado en el metodo anterior
+				createDom.domToFile(doc, "lista_de_clientes.xml");
+				System.out.println("1.2 El documento XML ha sido creado a partir de su arbol DOM");
+				
+				
+				
+			} 
+			catch (DOMException | TransformerFactoryConfigurationError | TransformerException | IOException e) {
+				e.printStackTrace();
+				throw e;
+			} 
+		}
 		
-	}
-	
-	
 	
 	
 	

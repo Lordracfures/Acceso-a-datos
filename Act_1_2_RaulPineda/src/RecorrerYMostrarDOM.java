@@ -75,7 +75,7 @@ public class RecorrerYMostrarDOM {
 			for (int i = 0; i < listaNodosRaiz.getLength(); i++) { // recorremos cada objeto nodo cliente nodo
 				nodo = listaNodosRaiz.item(i);
 				if (nodo.getNodeType() == Node.ELEMENT_NODE) { // Es un nodo elemento de cliente
-					datos_nodo = procesarNodoLibro(nodo);
+					datos_nodo = procesarNodoCliente(nodo);
 					salida=salida + "\n " + "Dni: " + datos_nodo[0];
 					salida=salida + "\n " + "Nombre: " + datos_nodo[1];
 					salida=salida + "\n " + "Apellido: " + datos_nodo[2];
@@ -92,7 +92,7 @@ public class RecorrerYMostrarDOM {
 	}
 	
 	
-	public String [] procesarNodoLibro(Node nodo) {
+	public String [] procesarNodoCliente(Node nodo) {
 		String datos[]= new String[5]; // 2 atributos y 5 datos
 		Node nodo_tmp = null;
 		int contador = 2;
